@@ -127,18 +127,45 @@ app.use('*', (req, res) => {
 // Initialize database and Redis connections
 async function initializeApp() {
   try {
-    await connectDB();
-    await connectRedis();
+    console.log('📋 Initializing QuickBite application...');
+    
+    // Try to connect to database (non-blocking)
+    try {
+      await connectDB();
+    } catch (dbError) {
+      logger.warn('⚠️ Database connection failed, continuing without DB:', dbError.message);
+    }
+    
+    // Try to connect to Redis (non-blocking)
+    try {
+      await connectRedis();
+    } catch (redisError) {
+      logger.warn('⚠️ Redis connection failed, continuing without Redis:', redisError.message);
+    }
     
     const PORT = process.env.PORT || 3000;
-    server.listen(PORT, () => {
+    
+    // Bind to all interfaces for Railway
+    server.listen(PORT, '0.0.0.0', () => {
       logger.info(`🚀 Server running on port ${PORT}`);
       logger.info(`📍 Environment: ${process.env.NODE_ENV}`);
       logger.info(`🔗 Socket.IO enabled for real-time communication`);
+      logger.info(`🏥 Health check available at /health`);
     });
+    
   } catch (error) {
     logger.error('Failed to initialize app:', error);
-    process.exit(1);
+    
+    // Don't exit in production, try minimal functionality
+    if (process.env.NODE_ENV === 'production') {
+      logger.warn('🔄 Starting with minimal functionality...');
+      const PORT = process.env.PORT || 3000;
+      server.listen(PORT, '0.0.0.0', () => {
+        logger.info(`⚠️ Server running in minimal mode on port ${PORT}`);
+      });
+    } else {
+      process.exit(1);
+    }
   }
 }
 
