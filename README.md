@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # QuickBite Food Delivery System
 
 A complete, professional food delivery platform with real-time order management.
@@ -235,3 +236,6 @@ MIT License - see LICENSE file for details
 ---
 
 **Made with ❤️ for the food delivery industry**
+=======
+# quickbite-food-delivery
+>>>>>>> 210476dd870e0abd53c372d10dfbf13dc04db1e1
