@@ -7,7 +7,7 @@
   "deploy": {
     "startCommand": "cd backend && node start.js",
     "healthcheckPath": "/health",
-    "healthcheckTimeout": 300,
+    "healthcheckTimeout": 100,
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 3
   },
@@ -15,6 +15,7 @@
     "NODE_ENV": "production",
     "PORT": "$PORT",
     "USE_MINIMAL_SERVER": "true",
-    "JWT_SECRET": "railway-quickbite-jwt-secret-key"
+    "JWT_SECRET": "railway-quickbite-jwt-secret-key",
+    "CORS_ORIGIN": "*"
   }
 }
