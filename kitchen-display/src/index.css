@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@layer components {
+  .order-card {
+    @apply bg-white rounded-lg shadow-md p-4 border-l-4 transition-all duration-300;
+  }
+  
+  .order-card.new {
+    @apply border-blue-500 shadow-lg;
+  }
+  
+  .order-card.preparing {
+    @apply border-orange-500;
+  }
+  
+  .order-card.ready {
+    @apply border-green-500;
+  }
+  
+  .timer-normal {
+    @apply text-green-600;
+  }
+  
+  .timer-warning {
+    @apply text-orange-500;
+  }
+  
+  .timer-danger {
+    @apply text-red-600 animate-pulse-slow;
+  }
+  
+  .status-button {
+    @apply w-full font-medium py-2 px-4 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+  
+  .status-button.primary {
+    @apply bg-blue-500 hover:bg-blue-600 text-white focus:ring-blue-500;
+  }
+  
+  .status-button.warning {
+    @apply bg-orange-500 hover:bg-orange-600 text-white focus:ring-orange-500;
+  }
+  
+  .status-button.success {
+    @apply bg-green-500 hover:bg-green-600 text-white focus:ring-green-500;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}

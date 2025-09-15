@@ -1,0 +1,76 @@
+{
+  "expo": {
+    "name": "Fast Food Driver",
+    "slug": "fast-food-driver-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.fastfood.driverapp",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "This app needs location access to track your position for deliveries.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app needs location access to track your position for deliveries.",
+        "NSCameraUsageDescription": "This app needs camera access to take delivery confirmation photos.",
+        "UIBackgroundModes": ["location", "background-fetch"]
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.fastfood.driverapp",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "CAMERA",
+        "RECORD_AUDIO",
+        "RECEIVE_BOOT_COMPLETED",
+        "VIBRATE",
+        "WAKE_LOCK"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Show current location for delivery tracking.",
+          "locationAlwaysAndWhenInUsePermission": "Allow background location tracking for active deliveries."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#ffffff"
+        }
+      ],
+      "expo-camera",
+      [
+        "expo-task-manager",
+        {
+          "backgroundLocationTask": "LOCATION_TRACKING"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "your-eas-project-id"
+      }
+    }
+  }
+}

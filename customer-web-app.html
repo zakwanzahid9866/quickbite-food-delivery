@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RioFood - Order Food Online</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* Header */
+        .header {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #e67e22;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: #e67e22;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #d35400;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #e67e22 0%, #f39c12 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            padding: 3rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #2c3e50;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .menu-item-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .menu-item-content {
+            padding: 1.5rem;
+        }
+
+        .menu-item-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .menu-item-description {
+            color: #7f8c8d;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .menu-item-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-item-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #e67e22;
+        }
+
+        .add-to-cart {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background: #d35400;
+            transform: scale(1.05);
+        }
+
+        /* Cart Badge */
+        .cart-badge {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #e67e22;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #e74c3c;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show { display: flex; }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .form-group { margin-bottom: 1rem; }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #e67e22;
+        }
+
+        .notification {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: #27ae60;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 3000;
+        }
+
+        .notification.show { transform: translateX(0); }
+        .notification.error { background: #e74c3c; }
+
+        .hidden { display: none !important; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .menu-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">🍔 RioFood</div>
+                <div class="auth-section">
+                    <div id="authButtons">
+                        <button class="btn btn-primary" onclick="showLoginModal()">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </button>
+                    </div>
+                    <div class="hidden" id="userInfo">
+                        <span id="userName">Welcome!</span>
+                        <button class="btn btn-primary" onclick="logout()">Logout</button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Delicious Food Delivered Fast</h1>
+            <p>Order from your favorite restaurants and get it delivered in minutes</p>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="menu-section">
+        <div class="container">
+            <h2 class="section-title">Our Menu</h2>
+            <div class="menu-grid" id="menuGrid">
+                <!-- Menu items will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Badge -->
+    <div class="cart-badge" onclick="showCheckout()">
+        <i class="fas fa-shopping-cart"></i>
+        <div class="cart-count" id="cartCount">0</div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="hideModal('loginModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 style="margin-bottom: 2rem; text-align: center;">Welcome Back</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label" for="loginPhone">Phone Number</label>
+                    <input type="tel" id="loginPhone" class="form-input" placeholder="+1234567892" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                    Sign In
+                </button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem; color: #666;">
+                Demo: +1234567892 / customer123
+            </p>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="hideModal('checkoutModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 style="margin-bottom: 2rem; text-align: center;">Your Order</h2>
+            <div id="checkoutContent">
+                <!-- Cart items will be shown here -->
+            </div>
+            <div style="border-top: 1px solid #eee; padding-top: 1rem; margin-top: 1rem;">
+                <div style="display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; margin-bottom: 1rem;">
+                    <span>Total:</span>
+                    <span id="checkoutTotal">$0.00</span>
+                </div>
+                <button class="btn btn-primary" style="width: 100%;" onclick="placeOrder()">
+                    <i class="fas fa-credit-card"></i> Place Order
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <span id="notificationText"></span>
+    </div>
+
+    <script>
+        // Global variables
+        let currentUser = null;
+        let cart = [];
+        let menuItems = [];
+        const API_BASE = 'http://localhost:3000/api';
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadMenuItems();
+            updateCartUI();
+            
+            // Setup form handlers
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+        });
+
+        // API functions
+        async function apiCall(endpoint, options = {}) {
+            try {
+                const response = await fetch(`${API_BASE}${endpoint}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...(currentUser?.token && { 'Authorization': `Bearer ${currentUser.token}` }),
+                        ...options.headers
+                    },
+                    ...options
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                return await response.json();
+            } catch (error) {
+                console.error('API Call failed:', error);
+                showNotification(`Connection error: ${error.message}`, 'error');
+                throw error;
+            }
+        }
+
+        // Load menu items
+        async function loadMenuItems() {
+            try {
+                const data = await apiCall('/menu/items');
+                menuItems = data.items || [];
+                renderMenuItems(menuItems);
+                showNotification('Menu loaded successfully!');
+            } catch (error) {
+                // Show demo menu when API is down
+                menuItems = [
+                    { id: '1', name: 'Classic Cheeseburger', description: 'Beef patty with cheese, lettuce, tomato', price_cents: 1200, icon: '🍔' },
+                    { id: '2', name: 'Bacon Burger', description: 'Beef patty with crispy bacon and cheese', price_cents: 1400, icon: '🥓' },
+                    { id: '3', name: 'French Fries', description: 'Crispy golden fries', price_cents: 450, icon: '🍟' },
+                    { id: '4', name: 'Soft Drink', description: 'Coke, Pepsi, or Sprite', price_cents: 250, icon: '🥤' },
+                    { id: '5', name: 'Apple Pie', description: 'Warm apple pie with ice cream', price_cents: 400, icon: '🥧' },
+                    { id: '6', name: 'Chicken Burger', description: 'Grilled chicken with fresh lettuce', price_cents: 1100, icon: '🐔' }
+                ];
+                renderMenuItems(menuItems);
+                showNotification('Demo menu loaded', 'error');
+            }
+        }
+
+        // Render menu items
+        function renderMenuItems(items) {
+            const grid = document.getElementById('menuGrid');
+            grid.innerHTML = items.map(item => `
+                <div class="menu-item">
+                    <div class="menu-item-image">${item.icon || '🍽️'}</div>
+                    <div class="menu-item-content">
+                        <h3 class="menu-item-title">${item.name}</h3>
+                        <p class="menu-item-description">${item.description}</p>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">$${(item.price_cents / 100).toFixed(2)}</span>
+                            <button class="add-to-cart" onclick="addToCart('${item.id}')">
+                                <i class="fas fa-plus"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Cart functions
+        function addToCart(itemId) {
+            const item = menuItems.find(i => i.id === itemId);
+            if (!item) return;
+
+            const existingItem = cart.find(i => i.id === itemId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...item, quantity: 1 });
+            }
+
+            updateCartUI();
+            showNotification(`${item.name} added to cart!`);
+        }
+
+        function updateCartUI() {
+            const cartCount = document.getElementById('cartCount');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+
+        // Modal functions
+        function showLoginModal() {
+            document.getElementById('loginModal').classList.add('show');
+        }
+
+        function showCheckout() {
+            if (cart.length === 0) {
+                showNotification('Your cart is empty!', 'error');
+                return;
+            }
+
+            const checkoutContent = document.getElementById('checkoutContent');
+            const checkoutTotal = document.getElementById('checkoutTotal');
+            
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price_cents * item.quantity), 0);
+            
+            checkoutContent.innerHTML = cart.map(item => `
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #eee;">
+                    <div>
+                        <strong>${item.name}</strong><br>
+                        <small>Qty: ${item.quantity}</small>
+                    </div>
+                    <div>$${((item.price_cents * item.quantity) / 100).toFixed(2)}</div>
+                </div>
+            `).join('');
+            
+            checkoutTotal.textContent = `$${(totalPrice / 100).toFixed(2)}`;
+            document.getElementById('checkoutModal').classList.add('show');
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        // Auth functions
+        async function handleLogin(e) {
+            e.preventDefault();
+            const phone = document.getElementById('loginPhone').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const response = await apiCall('/auth/login', {
+                    method: 'POST',
+                    body: JSON.stringify({ phone, password })
+                });
+
+                currentUser = response;
+                updateAuthUI();
+                hideModal('loginModal');
+                showNotification('Login successful!');
+            } catch (error) {
+                showNotification('Login failed! Check your credentials.', 'error');
+            }
+        }
+
+        function updateAuthUI() {
+            document.getElementById('authButtons').classList.add('hidden');
+            document.getElementById('userInfo').classList.remove('hidden');
+            document.getElementById('userName').textContent = `Welcome, ${currentUser?.user?.first_name || 'User'}!`;
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('authButtons').classList.remove('hidden');
+            document.getElementById('userInfo').classList.add('hidden');
+            showNotification('Logged out successfully!');
+        }
+
+        // Place order
+        async function placeOrder() {
+            if (!currentUser) {
+                hideModal('checkoutModal');
+                showLoginModal();
+                showNotification('Please login to place an order!', 'error');
+                return;
+            }
+
+            try {
+                // Get customer address first
+                const addressData = await apiCall('/customer/addresses');
+                const address = addressData.addresses[0];
+
+                if (!address) {
+                    showNotification('Please add a delivery address first!', 'error');
+                    return;
+                }
+
+                const orderData = {
+                    items: cart.map(item => ({
+                        menu_item_id: item.id,
+                        quantity: item.quantity,
+                        selected_modifiers: [],
+                        special_instructions: ''
+                    })),
+                    delivery_address_id: address.id,
+                    order_type: 'delivery',
+                    special_instructions: 'Please ring doorbell'
+                };
+
+                const response = await apiCall('/orders', {
+                    method: 'POST',
+                    body: JSON.stringify(orderData)
+                });
+
+                cart = [];
+                updateCartUI();
+                hideModal('checkoutModal');
+                showNotification('Order placed successfully! 🎉');
+                
+                // Redirect to order tracking
+                setTimeout(() => {
+                    window.open('http://localhost:3001', '_blank');
+                }, 2000);
+                
+            } catch (error) {
+                showNotification('Failed to place order. Please try again.', 'error');
+            }
+        }
+
+        // Utility functions
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            notificationText.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

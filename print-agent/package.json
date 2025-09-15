@@ -1,0 +1,26 @@
+{
+  "name": "fast-food-print-agent",
+  "version": "1.0.0",
+  "description": "Auto-printing system for fast food restaurant POS printers",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "node test-print.js"
+  },
+  "dependencies": {
+    "socket.io-client": "^4.7.2",
+    "escpos": "^3.0.0-alpha.6",
+    "escpos-usb": "^3.0.0-alpha.4",
+    "escpos-network": "^3.0.0-alpha.4",
+    "dotenv": "^16.3.1",
+    "winston": "^3.10.0",
+    "node-cron": "^3.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

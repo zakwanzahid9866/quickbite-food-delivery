@@ -1,0 +1,54 @@
+/* Kitchen Display specific styles */
+.kitchen-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.new-order-animation {
+  animation: newOrderPulse 2s ease-in-out;
+}
+
+@keyframes newOrderPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 20px rgba(59, 130, 246, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+.timer-blinking {
+  animation: blink 1.5s linear infinite;
+}
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0.3;
+  }
+}
+
+/* Print styles for receipt printing */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  
+  .printable, .printable * {
+    visibility: visible;
+  }
+  
+  .printable {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+}
