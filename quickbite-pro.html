@@ -330,7 +330,14 @@
     </div>
 
     <script>
-        const API_BASE = 'http://localhost:3000/api';
+        // Production API Configuration
+        const API_BASE = window.location.hostname === 'localhost' 
+            ? 'http://localhost:3000/api'
+            : 'https://quickbite-backend.up.railway.app/api';
+        
+        const SOCKET_URL = window.location.hostname === 'localhost'
+            ? 'http://localhost:3000'
+            : 'https://quickbite-backend.up.railway.app';
         let currentUser = null;
         let cart = [];
         let socket = null;
@@ -388,7 +395,7 @@
 
         function initSocket() {
             try {
-                socket = io('http://localhost:3000');
+                socket = io(SOCKET_URL);
                 socket.on('connect', () => {
                     showStatus('Connected to server', 'success');
                 });

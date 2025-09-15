@@ -23,7 +23,36 @@ const server = http.createServer(app);
 
 // CORS configuration
 const corsOptions = {
-  origin: process.env.CORS_ORIGINS?.split(',') || ['http://localhost:3001'],
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'http://localhost:3001', 
+      'http://localhost:3002',
+      'https://localhost:3000',
+      'https://localhost:3001',
+      'https://localhost:3002',
+      // Add your production URLs here:
+      // 'https://your-customer-app.netlify.app',
+      // 'https://your-admin-app.netlify.app',
+      // 'https://your-kitchen-app.vercel.app',
+      ...(process.env.CORS_ORIGINS?.split(',') || [])
+    ];
+    
+    // Allow file:// protocol for local HTML files
+    if (origin.startsWith('file://') || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    
+    // Allow any localhost or development origins
+    if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
+      return callback(null, true);
+    }
+    
+    callback(new Error('Not allowed by CORS'));
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
